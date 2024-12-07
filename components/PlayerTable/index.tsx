@@ -32,7 +32,7 @@ const TableComponent = ({
   };
 
   return (
-    <div className="bg-primary text-white rounded-md">
+    <div className="bg-primary text-white rounded-md w-fit md:w-full">
       <table className="w-full border-collapse text-left">
         <thead>
           <tr className="bg-secondary">

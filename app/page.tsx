@@ -24,15 +24,25 @@ const Home = () => {
   const [operatorGameType, setOperatorGameType] = useState<string | null>(null);
   const [slateName, setSlateName] = useState<string | null>(null);
   const [operatorList, setOperatorList] = useState<string[]>([]);
-  const [operatorGameTypeList, setOperatorGameTypeList] = useState<string[]>([]);
+  const [operatorGameTypeList, setOperatorGameTypeList] = useState<string[]>(
+    []
+  );
   const [slateNameList, setSlateNameList] = useState<string[]>([]);
 
   // Wrap getPlayers in useCallback
   const getPlayers = useCallback(async () => {
     try {
-      const response = await fetchPlayers(currentPage, rowsPerPage, operator, operatorGameType, slateName);
+      const response = await fetchPlayers(
+        currentPage,
+        rowsPerPage,
+        operator,
+        operatorGameType,
+        slateName
+      );
       setPlayers(response.players);
-      setSelectedPlayer(response.players.length > 0 ? response.players[0] : null);
+      setSelectedPlayer(
+        response.players.length > 0 ? response.players[0] : null
+      );
       setTotalCount(response.pagination.total_count);
       setTotalPages(response.pagination.total_pages);
     } catch (error) {
@@ -118,8 +128,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex gap-8 p-4">
-        <div className="flex-1 rounded-lg overflow-hidden">
+      <div className="flex flex-col md:flex-row gap-8 p-4 w-full justify-center">
+        <div className="flex flex-1 rounded-lg md:overflow-hidden overflow-scroll w-full">
           <TableComponent
             data={players}
             currentPage={currentPage}
@@ -134,7 +144,7 @@ const Home = () => {
         </div>
 
         {/* Selected Player Section */}
-        <div className="w-[400px] h-full rounded-lg overflow-hidden">
+        <div className="h-full rounded-lg overflow-hidden">
           <PlayerDetails player={selectedPlayer} />
         </div>
       </div>

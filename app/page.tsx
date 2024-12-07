@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Dropdown from "@/components/Dropdown";
 import Header from "@/components/Header";
 import {
@@ -9,8 +9,8 @@ import {
   fetchOperatorGameTypes,
   fetchSlateNames,
 } from "@/utils/api";
-import TableComponent from "../components/datatable";
-import PlayerDetails from "@/components/playerDetails";
+import TableComponent from "@/components/DataTable";
+import PlayerDetails from "@/components/PlayerDetails";
 
 const Home = () => {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -24,12 +24,11 @@ const Home = () => {
   const [operatorGameType, setOperatorGameType] = useState<string | null>(null);
   const [slateName, setSlateName] = useState<string | null>(null);
   const [operatorList, setOperatorList] = useState<string[]>([]);
-  const [operatorGameTypeList, setOperatorGameTypeList] = useState<string[]>(
-    []
-  );
+  const [operatorGameTypeList, setOperatorGameTypeList] = useState<string[]>([]);
   const [slateNameList, setSlateNameList] = useState<string[]>([]);
 
-  const getPlayers = async () => {
+  // Wrap getPlayers in useCallback
+  const getPlayers = useCallback(async () => {
     try {
       const response = await fetchPlayers(currentPage, rowsPerPage, operator, operatorGameType, slateName);
       setPlayers(response.players);
@@ -39,55 +38,55 @@ const Home = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [currentPage, rowsPerPage, operator, operatorGameType, slateName]);
 
   useEffect(() => {
     getPlayers();
-  }, [currentPage, rowsPerPage, operator, operatorGameType, slateName]);
+  }, [getPlayers]);
 
-  const getOperators = async () => {
+  const getOperators = useCallback(async () => {
     try {
       const data = await fetchOperators();
       setOperatorList(data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
-  const getOperatorGameTypes = async () => {
+  useEffect(() => {
+    getOperators();
+  }, [getOperators]);
+
+  const getOperatorGameTypes = useCallback(async () => {
     try {
       const data = await fetchOperatorGameTypes(operator);
       setOperatorGameTypeList(data);
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const getSlateNames = async () => {
-    try {
-      const data = await fetchSlateNames(operator, operatorGameType);
-      setSlateNameList(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getOperators();
-  }, []);
+  }, [operator]);
 
   useEffect(() => {
     if (!operator) return;
     setOperatorGameType(null);
     setSlateName(null);
     getOperatorGameTypes();
-  }, [operator]);
+  }, [operator, getOperatorGameTypes]);
+
+  const getSlateNames = useCallback(async () => {
+    try {
+      const data = await fetchSlateNames(operator, operatorGameType);
+      setSlateNameList(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [operator, operatorGameType]);
 
   useEffect(() => {
     if (!operatorGameType || !operator) return;
     setSlateName(null);
     getSlateNames();
-  }, [operatorGameType]);
+  }, [operatorGameType, operator, getSlateNames]);
 
   return (
     <div className="bg-black bg-opacity-90 text-white min-h-screen max-w-[1200px] mx-auto">

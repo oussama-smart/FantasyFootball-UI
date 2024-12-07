@@ -1,10 +1,14 @@
 # 🗝️Fantasy Football UI🗝️
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This project will leverage Next.js for dynamic rendering and Tailwind CSS for responsive, utility-first design, ensuring a seamless and interactive user experience. It will include dropdowns for selecting an operator, game type, and slate, along with a paginated player list that allows users to select and update players dynamically.
+
+First, Clone project and run the development server:
 
 ```bash
+git clone  git clone https://github.com/oussama-smart/FantasyFootball-UI
+
 npm run dev
 # or
 yarn dev

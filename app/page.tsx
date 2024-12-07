@@ -9,8 +9,8 @@ import {
   fetchOperatorGameTypes,
   fetchSlateNames,
 } from "@/utils/api";
-import TableComponent from "@/components/DataTable";
-import PlayerDetails from "@/components/PlayerDetails";
+import TableComponent from "@/components/PlayerTable";
+import PlayerDetails from "@/components/PlayerDetail";
 
 const Home = () => {
   const [players, setPlayers] = useState<Player[]>([]);

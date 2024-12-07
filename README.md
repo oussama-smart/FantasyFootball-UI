@@ -7,7 +7,7 @@ This project will leverage Next.js for dynamic rendering and Tailwind CSS for re
 First, Clone project and run the development server:
 
 ```bash
-git clone  git clone https://github.com/oussama-smart/FantasyFootball-UI
+git clone https://github.com/oussama-smart/FantasyFootball-UI
 
 npm run dev
 # or
